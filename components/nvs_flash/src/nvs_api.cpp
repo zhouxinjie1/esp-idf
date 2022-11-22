@@ -504,9 +504,13 @@ static esp_err_t nvs_get_str_or_blob(nvs_handle_t c_handle, nvs::ItemType type, 
         *length = dataSize;
         return ESP_ERR_NVS_INVALID_LENGTH;
     }
-
+//导致字符串数组读不出数据 
+//https://blog.csdn.net/u013365881/article/details/127980156?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22127980156%22%2C%22source%22%3A%22u013365881%22%7D
+//     *length = dataSize;
+//     return handle->get_typed_item(type, key, out_value, dataSize);
+    err =handle->get_typed_item(type, key, out_value, dataSize);
     *length = dataSize;
-    return handle->get_typed_item(type, key, out_value, dataSize);
+    return err;
 }
 
 extern "C" esp_err_t nvs_get_str(nvs_handle_t c_handle, const char* key, char* out_value, size_t* length)
